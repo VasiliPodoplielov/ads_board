@@ -1,0 +1,13 @@
+.header__user-block {
+  display: flex;
+  align-items: center;
+}
+
+.header__user-name {
+  margin-right: 10px;
+  color: #239404;
+  font-weight: bold;
+}
+.header__create-ad {
+  margin-right: 10px;
+}

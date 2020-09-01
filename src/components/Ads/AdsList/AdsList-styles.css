@@ -1,0 +1,16 @@
+.ads__list {
+  display: grid;
+  grid-gap: 30px;
+  margin-top: 32px;
+}
+.ads-list__title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 24px;
+}
+.ads__pagination {
+  text-align: center;
+}
+.ads__pagination .pagination {
+  justify-content: center;
+}

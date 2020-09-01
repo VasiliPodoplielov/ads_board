@@ -1,0 +1,26 @@
+.auth {
+  background: #e9ecef;
+  width: 100%;
+  padding: 20px 40px;
+}
+.auth__block-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.auth-form {
+  width: 500px;
+  margin: 0 auto;
+}
+
+.auth__form-submit {
+  display: block;
+  margin: 0 auto;
+  width: 150px;
+}
+
+.login__failed {
+  display: block;
+  margin-bottom: 16px;
+}
