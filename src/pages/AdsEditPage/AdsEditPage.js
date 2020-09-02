@@ -2,14 +2,17 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {generateId, getDate} from "../../utils/utils";
 import {onSaveAd} from "../../redux/actions/adsActions";
-import {Redirect} from "react-router-dom";
+import {Redirect, useParams} from "react-router-dom";
 import './AdsEditPage.css';
 
 const AdsEditPage = () => {
   const currentUser = useSelector(state => state.authReducer.currentUser);
   const isSuccessSave = useSelector(state => state.adsReducer.isSuccessSave);
-  const [adTitle, setAdTitle] = useState('');
-  const [adDescription, setAdDescription] = useState('');
+  const ads = useSelector(state => state.adsReducer.ads);
+  const {adId} = useParams();
+  const currentAd = adId ? ads.find(ad => ad.id === adId) : {};
+  const [adTitle, setAdTitle] = useState(currentAd.title || '');
+  const [adDescription, setAdDescription] = useState(currentAd.description || '');
   const dispatch = useDispatch();
   const [isAdTitleValid, setAdTitleValid] = useState(true);
   const [isDescriptionValid, setDescriptionValid] = useState(true);
@@ -31,13 +34,25 @@ const AdsEditPage = () => {
       return;
     }
 
-    let ad = {
-      title: adTitle,
-      description: adDescription,
-      authorName: currentUser,
-      createdAt: getDate(),
-      id: generateId('ad')
-    };
+    let ad;
+
+    if (Object.keys(currentAd).length) {
+      ad = {
+        title: adTitle,
+        description: adDescription,
+        authorName: currentUser,
+        createdAt: currentAd.createdAt,
+        id: currentAd.id
+      }
+    } else {
+      ad = {
+        title: adTitle,
+        description: adDescription,
+        authorName: currentUser,
+        createdAt: getDate(),
+        id: generateId('ad')
+      };
+    }
 
     dispatch(onSaveAd(ad));
     setAdTitle('');
@@ -75,9 +90,10 @@ const AdsEditPage = () => {
                 className="btn btn-success"
                 onClick={onSave}
             >
-              Создать
+              {`${adId ? 'Сохранить' : 'Создать'}`}
             </button>
-            {isSuccessSave ? <p className='text-success save__success'>Обьявление добавлено</p> : null}
+            {isSuccessSave && !adId ? <p className='text-success save__success'>Обьявление добавлено!</p> : null}
+            {isSuccessSave && adId ? <p className='text-success save__success'>Обьявление сохранено!</p> : null}
           </div>
         </form>
       </div>

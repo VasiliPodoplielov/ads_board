@@ -1,22 +1,27 @@
-import {SAVE_AD, CHANGE_SUCCESS_SAVE} from "../constants";
+import {SAVE_AD, CHANGE_SUCCESS_SAVE, DELETE_AD} from "../constants";
 import {getFromStorage, setToStorage} from "../../utils/utils";
 
 export function onSaveAd(adInfo) {
   return dispatch => {
     let allAdsJSON = getFromStorage('allAds');
-    let allAds = allAdsJSON ? JSON.parse(allAdsJSON) : {};
+    let allAds = allAdsJSON ? JSON.parse(allAdsJSON) : [];
+    let foundAd = allAds.find(ad => ad.id === adInfo.id);
 
-    let currentUser = getFromStorage('currentUser');
+    if (foundAd) {
+      allAds = allAds.map(ad => {
+        if (ad.id === foundAd.id) {
+          ad.title = adInfo.title;
+          ad.description = adInfo.description;
+        }
 
-    if (allAds[currentUser]) {
-      allAds[currentUser].push(adInfo);
+        return ad;
+      });
 
-
+      setToStorage('allAds', JSON.stringify(allAds));
     } else {
-      allAds[currentUser] = new Array(adInfo);
+      setToStorage('allAds', JSON.stringify([...allAds, adInfo]));
     }
 
-    setToStorage('allAds', JSON.stringify(allAds));
     dispatch(changeIsSuccessSave());
 
     setTimeout(() => {
@@ -28,6 +33,20 @@ export function onSaveAd(adInfo) {
       ads: allAds
     })
   };
+}
+
+export function onDeleteAd(adId) {
+  let allAdsJSON = getFromStorage('allAds');
+  let allAds = JSON.parse(allAdsJSON);
+
+  allAds = allAds.filter(ad => ad.id !== adId);
+
+  setToStorage('allAds', JSON.stringify(allAds));
+
+  return {
+    type: DELETE_AD,
+    ads: allAds
+  }
 }
 
 

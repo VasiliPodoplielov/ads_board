@@ -15,6 +15,16 @@ export function generateId(prefix) {
   return `${prefix}-${(~~(Math.random()*1e8)).toString(16)}`
 }
 
+export function splittingArray(array, size) {
+  let newArray = [];
+
+  for (let i = 0; i < Math.ceil(array.length/size); i++){
+    newArray[i] = array.slice((i*size), (i*size) + size);
+  }
+
+  return newArray;
+}
+
 function padStr(i) {
   return (i < 10) ? ('0' + i) : ('' + i);
 }

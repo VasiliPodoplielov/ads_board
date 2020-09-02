@@ -3,6 +3,7 @@ import {Route, Switch} from 'react-router';
 import HomePage from './pages/HomePage/HomePage';
 import AdsEditPage from './pages/AdsEditPage/AdsEditPage';
 import Layout from './hoc/Layout/Layout';
+import AdsViewPage from "./pages/AdsViewPage/AdsViewPage";
 
 export const routes = (
     <Switch>
@@ -12,13 +13,18 @@ export const routes = (
         </Layout>
       </Route>
       <Route path='/edit' exact>
-      <Layout>
-        <AdsEditPage />
-      </Layout>
-      </Route>
-      <Route path='/:id'>
         <Layout>
-          Здесь будет компонент обьявления
+          <AdsEditPage />
+        </Layout>
+      </Route>
+      <Route path='/edit/:adId' exact>
+        <Layout>
+          <AdsEditPage />
+        </Layout>
+      </Route>
+      <Route path='/:adId' exact>
+        <Layout>
+          <AdsViewPage />
         </Layout>
       </Route>
     </Switch>
