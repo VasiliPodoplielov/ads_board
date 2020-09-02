@@ -7,4 +7,3 @@ export const LOGOUT = 'LOGOUT';
 
 export const SAVE_AD = 'SAVE_AD';
 export const DELETE_AD = 'DELETE_AD';
-export const CHANGE_SUCCESS_SAVE = 'CHANGE_SUCCESS_SAVE';

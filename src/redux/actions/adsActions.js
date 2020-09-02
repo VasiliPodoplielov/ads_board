@@ -22,12 +22,6 @@ export function onSaveAd(adInfo) {
       setToStorage('allAds', JSON.stringify([...allAds, adInfo]));
     }
 
-    dispatch(changeIsSuccessSave());
-
-    setTimeout(() => {
-      dispatch(changeIsSuccessSave());
-    }, 4000);
-
     dispatch({
       type: SAVE_AD,
       ads: allAds
@@ -46,13 +40,6 @@ export function onDeleteAd(adId) {
   return {
     type: DELETE_AD,
     ads: allAds
-  }
-}
-
-
-function changeIsSuccessSave() {
-  return {
-    type: CHANGE_SUCCESS_SAVE
   }
 }
 

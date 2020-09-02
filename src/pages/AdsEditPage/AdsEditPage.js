@@ -2,12 +2,11 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {generateId, getDate} from "../../utils/utils";
 import {onSaveAd} from "../../redux/actions/adsActions";
-import {Redirect, useParams} from "react-router-dom";
+import {Redirect, useParams, useHistory} from "react-router-dom";
 import './AdsEditPage.css';
 
 const AdsEditPage = () => {
   const currentUser = useSelector(state => state.authReducer.currentUser);
-  const isSuccessSave = useSelector(state => state.adsReducer.isSuccessSave);
   const ads = useSelector(state => state.adsReducer.ads);
   const {adId} = useParams();
   const currentAd = adId ? ads.find(ad => ad.id === adId) : {};
@@ -16,6 +15,7 @@ const AdsEditPage = () => {
   const dispatch = useDispatch();
   const [isAdTitleValid, setAdTitleValid] = useState(true);
   const [isDescriptionValid, setDescriptionValid] = useState(true);
+  const history = useHistory();
 
   if (!currentUser) {
     return (
@@ -57,6 +57,8 @@ const AdsEditPage = () => {
     dispatch(onSaveAd(ad));
     setAdTitle('');
     setAdDescription('');
+
+    history.push(`/${ad.id}`);
   }
 
 
@@ -92,8 +94,6 @@ const AdsEditPage = () => {
             >
               {`${adId ? 'Сохранить' : 'Создать'}`}
             </button>
-            {isSuccessSave && !adId ? <p className='text-success save__success'>Обьявление добавлено!</p> : null}
-            {isSuccessSave && adId ? <p className='text-success save__success'>Обьявление сохранено!</p> : null}
           </div>
         </form>
       </div>
